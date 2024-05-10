@@ -177,7 +177,7 @@ for (let i = 0; i < 15; i++) {
   };
 
   gravePlacement();
-
+  grave.castShadow = true;
   graves.add(grave);
 }
 // Floor
@@ -211,13 +211,10 @@ gui.add(moonLight.position, "y").min(-5).max(5).step(0.001);
 gui.add(moonLight.position, "z").min(-5).max(5).step(0.001);
 scene.add(moonLight);
 
-moonLight.castShadow = true;
-
 // Door Light
 const doorLight = new THREE.PointLight("#ff7d46", 3, 7);
 doorLight.position.set(0, 2.2, 2.7);
 scene.add(doorLight);
-doorLight.castShadow = true;
 
 /**
  * Ghosts
@@ -225,23 +222,14 @@ doorLight.castShadow = true;
 const ghost1 = new THREE.PointLight("#ff00ff", 6, 3);
 ghost1.position.set(-4, 1, -4);
 scene.add(ghost1);
-ghost1.castShadow = true;
-ghost1.shadow.camera.position.set(2, 2, 2);
-
-const ghost1pointLightCameraHelper = new THREE.CameraHelper(
-  ghost1.shadow.camera
-);
-scene.add(ghost1pointLightCameraHelper);
 
 const ghost2 = new THREE.PointLight("#00ffff", 6, 3);
 ghost2.position.set(4, 1, 4);
 scene.add(ghost2);
-ghost2.castShadow = true;
 
 const ghost3 = new THREE.PointLight("#ffff00", 6, 3);
 ghost3.position.set(-4, 1, 4);
 scene.add(ghost3);
-ghost3.castShadow = true;
 
 /**
  * Sizes
@@ -293,6 +281,76 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor("#272837");
+
+renderer.shadowMap.enabled = true;
+
+/**
+ * Shadows
+ */
+
+walls.castShadow = true;
+bush1.castShadow = true;
+bush2.castShadow = true;
+bush3.castShadow = true;
+bush4.castShadow = true;
+roof.castShadow = true;
+floor.receiveShadow = true;
+
+moonLight.castShadow = true;
+moonLight.shadow.mapSize.width = 1024;
+moonLight.shadow.mapSize.height = 1024;
+moonLight.shadow.camera.near = 1;
+moonLight.shadow.camera.far = 12;
+moonLight.shadow.camera.top = 10;
+moonLight.shadow.camera.right = 10;
+moonLight.shadow.camera.bottom = -10;
+moonLight.shadow.camera.left = -10;
+
+//const moonLightpointLightCameraHelper = new THREE.CameraHelper(
+//  moonLight.shadow.camera
+//);
+//scene.add(moonLightpointLightCameraHelper);
+
+doorLight.castShadow = true;
+doorLight.shadow.mapSize.width = 1024;
+doorLight.shadow.mapSize.height = 1024;
+doorLight.shadow.camera.near = 0.1;
+doorLight.shadow.camera.fov = 120;
+doorLight.shadow.camera.far = 3;
+
+//const doorLightpointLightCameraHelper = new THREE.CameraHelper(
+//  doorLight.shadow.camera
+//);
+//scene.add(doorLightpointLightCameraHelper);
+
+ghost1.castShadow = true;
+ghost1.shadow.mapSize.width = 1024;
+ghost1.shadow.mapSize.height = 1024;
+ghost1.shadow.camera.near = 0.1;
+ghost1.shadow.camera.fov = 120;
+ghost1.shadow.camera.far = 1.5;
+
+ghost1.shadow.camera.position.set(2, 2, 2);
+
+//const ghost1pointLightCameraHelper = new THREE.CameraHelper(
+//  ghost1.shadow.camera
+//);
+//scene.add(ghost1pointLightCameraHelper);
+
+ghost2.castShadow = true;
+ghost2.shadow.mapSize.width = 1024;
+ghost2.shadow.mapSize.height = 1024;
+ghost2.shadow.camera.near = 0.1;
+ghost2.shadow.camera.fov = 120;
+ghost2.shadow.camera.far = 1.5;
+
+ghost3.castShadow = true;
+ghost3.shadow.mapSize.width = 1024;
+ghost3.shadow.mapSize.height = 1024;
+ghost3.shadow.camera.near = 0.1;
+ghost3.shadow.camera.fov = 120;
+ghost3.shadow.camera.far = 1.5;
+
 /**
  * Animate
  */
